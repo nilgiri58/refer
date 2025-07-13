@@ -5,10 +5,9 @@
   <script>
     const ref = new URLSearchParams(window.location.search).get("ref");
     if (ref) {
-      localStorage.setItem("referralCode", ref);
+      document.cookie = "referralCode=" + ref + "; path=/";
     }
 
-    // ✅ Actual redirect line
     window.location.replace("https://play.google.com/store/apps/details?id=com.sampoorna_sanatan.myapp");
   </script>
 </head>
@@ -16,3 +15,4 @@
   <p>Redirecting to Play Store...</p>
 </body>
 </html>
+
