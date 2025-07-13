@@ -2,7 +2,11 @@
 <html>
 <head>
   <script>
-    const ref = localStorage.getItem("referralCode");
+    const ref = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('referralCode='))
+      ?.split('=')[1];
+
     window.AppInventor.setWebViewString(ref || "");
   </script>
 </head>
@@ -10,3 +14,4 @@
   Reading Referral Code...
 </body>
 </html>
+
