@@ -3,19 +3,24 @@
 <head>
   <title>Redirecting...</title>
   <script>
+    // Get referral code from URL param
     const ref = new URLSearchParams(window.location.search).get("ref");
+
     if (ref) {
-      // ✅ Store in localStorage (used later in getref.html)
-      localStorage.setItem("ReferralCode", ref);
+      // Set referral code as cookie
+      document.cookie = "referralCode=" + ref + "; path=/";
+
+      // Optional alert to confirm during testing
+      alert("Referral code from URL: " + ref);
     }
 
-    // 🔁 Redirect to your Play Store page
-    window.location.replace("https://play.google.com/store/apps/details?id=com.sampoorna_sanatan.myapp");
+    // Redirect to Play Store after short delay
+    setTimeout(() => {
+      window.location.replace("https://play.google.com/store/apps/details?id=com.sampoorna_sanatan.myapp");
+    }, 1000);
   </script>
 </head>
 <body>
   <p>Redirecting to Play Store...</p>
 </body>
 </html>
-
-
