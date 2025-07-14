@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Loading Referral Code...</title>
-  <meta charset="UTF-8">
+  <title>Reading referral...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const urlParams = new URLSearchParams(window.location.search);
-      const ref = urlParams.get("ref");
-
-      if (ref) {
-        // ✅ Save to localStorage (correct key)
-        localStorage.setItem("referralCode", ref);
-        alert("Referral code from URL: " + ref);
-
-        // ✅ Send to Kodular (if inside WebView)
-        if (window.AppInventor) {
-          window.AppInventor.setWebViewString(ref);
-        } else {
-          alert("AppInventor object not available (testing outside app)");
-        }
-      } else {
-        // No param — load from localStorage
-        const storedRef = localStorage.getItem("referralCode");
-
-        if (storedRef) {
-          alert("Referral code from localStorage: " + storedRef);
-          if (window.AppInventor) {
-            window.AppInventor.setWebViewString(storedRef);
-          } else {
-            alert("AppInventor object not available (testing outside app)");
-          }
-        } else {
-          alert("No referral code found.");
+    // Read cookie and extract referralCode
+    function getReferralFromCookie() {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith("referralCode=")) {
+          return cookie.substring("referralCode=".length);
         }
       }
-    });
+      return "";
+    }
+
+    const ref = getReferralFromCookie();
+
+    // Notify user (optional during testing)
+    if (ref) {
+      alert("Referral code from cookie: " + ref);
+    } else {
+      alert("No referral code found.");
+    }
+
+    // Send to Kodular
+    if (window.AppInventor) {
+      window.AppInventor.setWebViewString(ref);
+    }
   </script>
 </head>
 <body>
-  <h3>🔄 Loading Referral Code...</h3>
+  <p>Getting referral code...</p>
 </body>
 </html>
-
