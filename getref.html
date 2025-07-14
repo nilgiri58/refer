@@ -1,41 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Referral Loader</title>
   <script>
-    window.onload = function () {
-      let urlParams = new URLSearchParams(window.location.search);
-      let ref = urlParams.get('ref');
-
-      if (ref) {
-        localStorage.setItem('ReferralCode', ref);
-        alert('Referral in getref.html: ' + ref);
-        if (window.AppInventor) {
-          window.AppInventor.setWebViewString(ref);
-        } else {
-          alert("AppInventor object not available");
-        }
-      } else {
-        // No ?ref= in URL, try from localStorage
-        let storedRef = localStorage.getItem('ReferralCode');
-        if (storedRef) {
-          alert('Referral from localStorage: ' + storedRef);
-          if (window.AppInventor) {
-            window.AppInventor.setWebViewString(storedRef);
-          } else {
-            alert("AppInventor object not available");
-          }
-        } else {
-          // No referral found at all
-          if (window.AppInventor) {
-            window.AppInventor.setWebViewString("");
-          }
-        }
-      }
-    };
+    const ref = localStorage.getItem("referralCode") || "";
+    alert("Referral in getref.html: " + ref);
+    window.AppInventor.setWebViewString(ref);
   </script>
 </head>
 <body>
-  Reading Referral Code...
+  <p>Referral code: <span id="code"></span></p>
+  <script>
+    document.getElementById("code").innerText = ref;
+  </script>
 </body>
 </html>
+
