@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Getting Referral...</title>
+  <title>Loading Referral Code...</title>
   <meta charset="UTF-8">
   <script>
-    // STEP 1: Get ref from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('ref');
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get("ref");
 
-    if (ref) {
-      // Save to localStorage
-      localStorage.setItem('ReferralCode', ref);
-    }
+      if (ref) {
+        // ✅ Save to localStorage (correct key)
+        localStorage.setItem("referralCode", ref);
+        alert("Referral code from URL: " + ref);
 
-    // STEP 2: Decide which referral code to use
-    const finalRef = ref || localStorage.getItem('ReferralCode') || "";
+        // ✅ Send to Kodular (if inside WebView)
+        if (window.AppInventor) {
+          window.AppInventor.setWebViewString(ref);
+        } else {
+          alert("AppInventor object not available (testing outside app)");
+        }
+      } else {
+        // No param — load from localStorage
+        const storedRef = localStorage.getItem("referralCode");
 
-    // STEP 3: Send to Kodular if inside WebViewer
-    function sendToKodular(refCode) {
-      if (window.AppInventor && window.AppInventor.setWebViewString) {
-        window.AppInventor.setWebViewString(refCode);
+        if (storedRef) {
+          alert("Referral code from localStorage: " + storedRef);
+          if (window.AppInventor) {
+            window.AppInventor.setWebViewString(storedRef);
+          } else {
+            alert("AppInventor object not available (testing outside app)");
+          }
+        } else {
+          alert("No referral code found.");
+        }
       }
-    }
-
-    // Wait for page to fully load before sending
-    window.onload = function () {
-      sendToKodular(finalRef);
-    };
+    });
   </script>
 </head>
 <body>
-  <p style="text-align:center;margin-top:50px;">Reading Referral Code...</p>
+  <h3>🔄 Loading Referral Code...</h3>
 </body>
 </html>
+
