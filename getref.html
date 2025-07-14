@@ -2,15 +2,11 @@
 <html>
 <head>
   <script>
-    const ref = localStorage.getItem("referralCode") || "";
-    alert("Referral in getref.html: " + ref);
-    window.AppInventor.setWebViewString(ref);
+    const ref = localStorage.getItem("referralCode");
+    window.AppInventor.setWebViewString(ref || "");
   </script>
 </head>
 <body>
-  <p>Referral code: <span id="code"></span></p>
-  <script>
-    document.getElementById("code").innerText = ref;
-  </script>
+  Reading Referral Code...
 </body>
 </html>
