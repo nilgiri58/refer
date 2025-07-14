@@ -2,16 +2,15 @@
 <html>
 <head>
   <script>
-    const ref = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('referralCode='))
-      ?.split('=')[1];
-
-    window.AppInventor.setWebViewString(ref || "");
+    const ref = localStorage.getItem("referralCode") || "";
+    alert("Referral in getref.html: " + ref);
+    window.AppInventor.setWebViewString(ref);
   </script>
 </head>
 <body>
-  Reading Referral Code...
+  <p>Referral code: <span id="code"></span></p>
+  <script>
+    document.getElementById("code").innerText = ref;
+  </script>
 </body>
 </html>
-
