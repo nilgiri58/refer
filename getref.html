@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Referral Loader</title>
+  <title>Getting Referral...</title>
+  <meta charset="UTF-8">
   <script>
-    window.onload = function () {
-      let urlParams = new URLSearchParams(window.location.search);
-      let ref = urlParams.get('ref');
+    // STEP 1: Get ref from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
 
-      if (ref) {
-        localStorage.setItem('ReferralCode', ref);
-        alert('Referral in getref.html: ' + ref);
-        if (window.AppInventor) {
-          window.AppInventor.setWebViewString(ref);
-        } else {
-          alert("AppInventor object not available");
-        }
-      } else {
-        // No ?ref= in URL, try from localStorage
-        let storedRef = localStorage.getItem('ReferralCode');
-        if (storedRef) {
-          alert('Referral from localStorage: ' + storedRef);
-          if (window.AppInventor) {
-            window.AppInventor.setWebViewString(storedRef);
-          } else {
-            alert("AppInventor object not available");
-          }
-        } else {
-          // No referral found at all
-          if (window.AppInventor) {
-            window.AppInventor.setWebViewString("");
-          }
-        }
+    if (ref) {
+      // Save to localStorage
+      localStorage.setItem('ReferralCode', ref);
+    }
+
+    // STEP 2: Decide which referral code to use
+    const finalRef = ref || localStorage.getItem('ReferralCode') || "";
+
+    // STEP 3: Send to Kodular if inside WebViewer
+    function sendToKodular(refCode) {
+      if (window.AppInventor && window.AppInventor.setWebViewString) {
+        window.AppInventor.setWebViewString(refCode);
       }
+    }
+
+    // Wait for page to fully load before sending
+    window.onload = function () {
+      sendToKodular(finalRef);
     };
   </script>
 </head>
 <body>
-  Reading Referral Code...
+  <p style="text-align:center;margin-top:50px;">Reading Referral Code...</p>
 </body>
 </html>
-
