@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reading referral...</title>
+  <title>Getting Referral Code</title>
   <script>
-    // Read cookie and extract referralCode
-    function getReferralFromCookie() {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith("referralCode=")) {
-          return cookie.substring("referralCode=".length);
+    function sendToApp(ref) {
+      if (window.AppInventor) {
+        window.AppInventor.setWebViewString(ref);
+        alert("Referral sent to app: " + ref);
+      } else {
+        alert("AppInventor object not available");
+      }
+    }
+
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get("ref");
+
+      if (ref) {
+        localStorage.setItem("referralCode", ref);
+        sendToApp(ref);
+      } else {
+        const saved = localStorage.getItem("referralCode");
+        if (saved) {
+          sendToApp(saved);
+        } else {
+          alert("No referral code found.");
         }
       }
-      return "";
-    }
-
-    const ref = getReferralFromCookie();
-
-    // Notify user (optional during testing)
-    if (ref) {
-      alert("Referral code from cookie: " + ref);
-    } else {
-      alert("No referral code found.");
-    }
-
-    // Send to Kodular
-    if (window.AppInventor) {
-      window.AppInventor.setWebViewString(ref);
-    }
+    };
   </script>
 </head>
 <body>
-  <p>Getting referral code...</p>
+  Getting referral code...
 </body>
 </html>
